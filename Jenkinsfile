@@ -9,7 +9,7 @@ pipeline {
         stage('Test'){
             steps {
                 sh '''
-                    popeye -l error -o html --save --output-file popeye.html
+                    popeye -l error -o html --force-exit-zero --save --output-file popeye.html
                     ls -al /tmp/popeye/
                     cat /tmp/popeye/popeye.html
                    '''
