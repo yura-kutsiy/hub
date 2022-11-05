@@ -8,11 +8,16 @@ pipeline {
     stages {
         stage('Test'){
             steps {
-                sh 'echo "testing will be here"'
+                sh '''
+                    popeye -l error -o html --save --output-file popeye.html
+                    ls -al /tmp/popeye/
+                    cat /tmp/popeye/poeye.html
+                   '''
             }
         }
         stage('Deploy') {
             steps {
+                sh 'cat /tmp/popeye/poeye.html'
                 sh 'echo "deploy with GitOps"'
             }
         }
