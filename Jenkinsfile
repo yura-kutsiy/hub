@@ -23,7 +23,7 @@ pipeline {
                 sh 'echo "publish your test"'
                 // withChecks('Integration Tests') {
                 //     junit skipPublishingChecks: true, testResults: '/tmp/popeye/popeye.xml'
-                }
+                // }
             }
         }
     }
