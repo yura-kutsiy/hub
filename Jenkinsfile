@@ -18,7 +18,7 @@ pipeline {
                                 /kaniko/executor --context `pwd` \
                                                  --label include=init-image \
                                                  --snapshotMode=full \
-                                                 --destination yurasdockers/kuberAPI:0.1
+                                                 --destination yurasdockers/kuberapi:0.1
                             '''
                         }
                     }
