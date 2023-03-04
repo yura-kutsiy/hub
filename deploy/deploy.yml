@@ -41,4 +41,4 @@ spec:
     targetPort: 5000
   selector:
     app: kuberapi
-  type: LoadBalancer
+  type: NodePort
