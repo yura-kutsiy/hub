@@ -14,13 +14,11 @@ pipeline {
                     container('kaniko') {
                         script {
                             sh '''
-                                git clone https://github.com/adw0rd/instagrapi-rest.git
-                                cd instagram-rest
                                 cat $FILE > /kaniko/.docker/config.json
                                 /kaniko/executor --context `pwd` \
                                                  --label include=init-image \
                                                  --snapshotMode=full \
-                                                 --destination yurasdockers/insta-server
+                                                 --destination yurasdockers/kuberAPI:0.1
                             '''
                         }
                     }
