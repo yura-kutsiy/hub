@@ -35,10 +35,11 @@ kind: Service
 metadata:
   name: kuberapi-service
 spec:
-  ports:
-  - port: 5000
-    protocol: TCP
-    targetPort: 5000
+  type: NodePort
   selector:
     app: kuberapi
-  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP
+    nodePort: 32010
