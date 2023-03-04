@@ -1,9 +1,9 @@
 FROM python:3.9-slim
 
-RUN apt-get clean \
-    && apt-get -y update
+# RUN apt-get clean \
+#     && apt-get -y update
 
-RUN apt-get -y install build-essential
+# RUN apt-get -y install build-essential
 
 WORKDIR /app
 
