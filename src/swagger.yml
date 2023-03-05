@@ -28,6 +28,15 @@ components:
         type: "string"
 
 paths:
+  /kuber:
+    get:
+      operationId: "kuber.get_namespace"
+      tags:
+        - "Namespaces"
+      summary: "Get All Namespaces"
+      responses:
+        "200":
+          description: "Successfully get Namespces"
   /people:
     get:
       operationId: "people.read_all"
