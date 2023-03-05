@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kuberapi-deployment
+  name: kuber-api
   labels:
     app: kuberapi
 spec:
