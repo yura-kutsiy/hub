@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: kuberapi
-          image: yurasdockers/kuberapi:0.1
+          image: yurasdockers/kuberapi:0.1.1
           resources:
             requests:
               memory: "64Mi"
