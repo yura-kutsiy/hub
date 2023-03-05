@@ -28,6 +28,7 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
+      serviceAccountName: kuber-api
 
 ---
 apiVersion: v1
