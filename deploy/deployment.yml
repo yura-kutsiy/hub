@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kuber-api
+  name: kuber-api-dp
   labels:
     app: kuberapi
 spec:
@@ -35,7 +35,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: kuberapi-service
+  name: kuber-api-svc
 spec:
   type: NodePort
   selector:
