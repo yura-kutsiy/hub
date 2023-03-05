@@ -6,12 +6,11 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
     stages {
-                // the code here can access $pass and $user
-        stage('Test'){
-            steps {
-                sh 'echo "testing will be here"'
-            }
-        }
+        // stage('Test'){
+        //     steps {
+        //         sh 'echo "testing will be here"'
+        //     }
+        // }
         stage('Build') { 
             steps { 
             withCredentials([file(credentialsId: 'config.json', variable: 'FILE')]) {
@@ -32,10 +31,10 @@ pipeline {
             }           
             }
         }
-        stage('Deploy') {
-            steps {
-                sh 'echo "deploy with GitOps"'
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         sh 'echo "deploy with GitOps"'
+        //     }
+        // }
     }
 }
