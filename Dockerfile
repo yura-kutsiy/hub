@@ -10,7 +10,7 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt --src /usr/local/src
 
-COPY . .
+COPY src .
 
-EXPOSE 5000
+EXPOSE 8000
 CMD [ "python", "app.py" ]
