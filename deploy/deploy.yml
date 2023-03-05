@@ -6,6 +6,7 @@ metadata:
   labels:
     app: kuberapi
 spec:
+  serviceAccountName: kuber-api
   replicas: 1
   selector:
     matchLabels:
