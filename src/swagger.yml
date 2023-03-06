@@ -28,15 +28,15 @@ components:
         type: "string"
 
 paths:
-  /kuber/pod:
+  /kuber/pods:
     get:
-      operationId: "kuber.get_pod"
+      operationId: "kuber.get_pods"
       tags:
-        - "Pod"
-      summary: "Get Pod"
+        - "Pods"
+      summary: "Get Pods"
       responses:
         "200":
-          description: "Successfully get Pod"
+          description: "Successfully get Pods"
   /people:
     get:
       operationId: "people.read_all"

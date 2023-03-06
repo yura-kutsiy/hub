@@ -2,7 +2,7 @@ from kubernetes import client, config
 
 config.load_incluster_config()
 
-def get_pod():
+def get_pods():
     config.load_incluster_config()
 
     v1 = client.CoreV1Api()
