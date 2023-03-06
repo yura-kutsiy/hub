@@ -14,6 +14,7 @@ def get_namespace():
         print("Info: Pod name is -> " + i.metadata.name)
         print("Info: Pod's logs:")
         print(v1.read_namespaced_pod_log(i.metadata.name, 'app'))
+        return ("Info: Pod name is -> " + i.metadata.name)        
 
 if __name__ == '__main__':
     get_namespace()

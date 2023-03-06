@@ -26,10 +26,10 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
-      serviceAccountName: kuber-api
+      serviceAccountName: kuber-api-sa
 
 ---
 apiVersion: v1
