@@ -28,15 +28,15 @@ components:
         type: "string"
 
 paths:
-  /kuber:
+  /kuber/pod:
     get:
-      operationId: "kuber.get_namespace"
+      operationId: "kuber.get_pod"
       tags:
-        - "Namespaces"
-      summary: "Get All Namespaces"
+        - "Pod"
+      summary: "Get Pod"
       responses:
         "200":
-          description: "Successfully get Namespces"
+          description: "Successfully get Pod"
   /people:
     get:
       operationId: "people.read_all"
