@@ -24,6 +24,8 @@ pipeline {
                                                 --snapshotMode=full \
                                                 --destination yurasdockers/kuberapi:0.1.1 \
                                                 --cache=true \
+                                                --cache-run-layers \
+                                                --cache-copy-layers \
                                                 --cache-repo yurasdockers/kuberapi-cache
                         '''
                     }
