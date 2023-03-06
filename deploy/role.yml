@@ -28,9 +28,9 @@ metadata:
   name: kuber-api-rlb
 subjects:
 - kind: ServiceAccount
-  name: kuber-api
+  name: kuber-api-sa
   namespace: app
 roleRef:
   kind: ClusterRole
-  name: kuber-api
+  name: kuber-api-clr
   apiGroup: rbac.authorization.k8s.io
