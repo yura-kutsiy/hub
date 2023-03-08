@@ -44,7 +44,7 @@ paths:
       responses:
         "200":
           description: "Successfully get Pods"
-  /kuber/pods/{namespace}:
+  /kuber/{namespace}/pods:
     get:
       operationId: "kuber.get_namespaced_pods"
       tags:
