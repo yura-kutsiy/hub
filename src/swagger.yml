@@ -26,6 +26,13 @@ components:
       required: True
       schema:
         type: "string"
+    namespace:
+      name: "namespace"
+      description: "Namespace name"
+      in: path
+      required: True
+      schema:
+        type: "string"
 
 paths:
   /kuber/pods:
@@ -43,8 +50,8 @@ paths:
       tags:
         - Namespaced_Pods
       summary: "Get pods in namespace"
-      # parameters:
-      #   - $ref: "#/components/parameters/lname"
+      parameters:
+        - $ref: "#/components/parameters/namespace"
       responses:
         "200":
           description: "Successfully get pods in namespace"
