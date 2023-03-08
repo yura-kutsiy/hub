@@ -37,6 +37,17 @@ paths:
       responses:
         "200":
           description: "Successfully get Pods"
+  /kuber/{namespace}/pods:
+    get:
+      operationId: "kuber.get_namespaced_pods"
+      tags:
+        - Namespaced_Pods
+      summary: "Get pods in namespace"
+      # parameters:
+      #   - $ref: "#/components/parameters/lname"
+      responses:
+        "200":
+          description: "Successfully get pods in namespace"
   /people:
     get:
       operationId: "people.read_all"
