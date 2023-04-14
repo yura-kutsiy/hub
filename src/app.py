@@ -19,7 +19,7 @@ def get_namespaced_pods(namespace):
     config.load_incluster_config()
 
     v1 = client.CoreV1Api()
-    pods_list = v1.list_namespaced_pod(f"namespace='{namespace}', watch=False")
+    pods_list = v1.list_namespaced_pod(namespace=namespace, watch=False)
     namespaced_pods = [item.metadata.name for item in pods_list.items]
     return namespaced_pods
 
