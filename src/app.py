@@ -1,6 +1,5 @@
 from flask import Flask
 from kubernetes import client, config
-from app import app # gunicorn server
 
 config.load_incluster_config()
 
