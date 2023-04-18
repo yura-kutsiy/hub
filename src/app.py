@@ -1,5 +1,6 @@
 from flask import Flask
 from kubernetes import client, config
+from app import app # gunicorn server
 
 config.load_incluster_config()
 
@@ -23,12 +24,12 @@ def get_namespaced_pods(namespace):
     namespaced_pods = [item.metadata.name for item in pods_list.items]
     return namespaced_pods
 
-@app.route('/kuber/logs/<pod_name>')
-def get_logs(pod_name):
+@app.route('/kuber/<namespace>/<pod_name>/logs')
+def get_logs(pod_name, namespace):
     config.load_incluster_config()
     
     v1 = client.CoreV1Api()
-    pod_logs = v1.read_namespaced_pod_log(name=pod_name, namespace='app')
+    pod_logs = v1.read_namespaced_pod_log(name=pod_name, namespace=namespace)
     return pod_logs
 
 if __name__ == '__main__':
