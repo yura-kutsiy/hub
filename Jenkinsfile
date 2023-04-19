@@ -22,7 +22,7 @@ pipeline {
                             /kaniko/executor --context `pwd` \
                                                 --label include=init-image \
                                                 --snapshotMode=full \
-                                                --destination yurasdockers/kuberapi:0.1.1 \
+                                                --destination yurasdockers/kuberapi:0.1.2 \
                                                 --cache=true \
                                                 --cache-run-layers \
                                                 --cache-copy-layers \
