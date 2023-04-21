@@ -1,9 +1,11 @@
 from flask import Flask
 from kubernetes import client, config
+from flask_cors import CORS
 
 config.load_incluster_config()
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/kuber/pods')
 def get_pods():
