@@ -12,7 +12,7 @@ def get_pods():
     config.load_incluster_config()
 
     v1 = client.CoreV1Api()
-    pods_list = v1.list_namespaced_pod(namespace='default', watch=False)
+    pods_list = v1.list_namespaced_pod(namespace='app', watch=False)
     pods_data = []
     for pod in pods_list.items:
         pod_dict = pod.to_dict()
