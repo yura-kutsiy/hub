@@ -30,8 +30,16 @@ def get_namespaced_pods(namespace):
 
     v1 = client.CoreV1Api()
     pods_list = v1.list_namespaced_pod(namespace=namespace, watch=False)
-    namespaced_pods = [item.metadata.name for item in pods_list.items]
-    return namespaced_pods
+    pods_data = []
+    for pod in pods_list.items:
+        pod_dict = pod.to_dict()
+        pod_data = {
+            "name": pod_dict['metadata']['name'],
+            "status": pod_dict['status']['phase'],
+            "age": pod_dict['metadata']['creation_timestamp']
+        }
+        pods_data.append(pod_data)
+    return jsonify(pods_data)
 
 @app.route('/kuber/<namespace>/<pod_name>/logs')
 def get_logs(pod_name, namespace):
