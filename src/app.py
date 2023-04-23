@@ -2,13 +2,16 @@ from flask import Flask, jsonify
 from kubernetes import client, config
 from flask_cors import CORS
 import datetime
+from flask_caching import Cache
 
 config.load_incluster_config()
 
 app = Flask(__name__)
 CORS(app)
+cache = Cache(app, config={'CACHE_TYPE': 'null'})
 
 @app.route('/kuber/pods')
+@cache.cached(timeout=0)
 def get_pods():
     config.load_incluster_config()
     v1 = client.CoreV1Api()
@@ -23,9 +26,10 @@ def get_pods():
             'age': (datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc) - item.status.start_time).total_seconds()
         }
         pods.append(pod)
-    return jsonify(pods)
+    return jsonify(pods), 200, {'Cache-Control': 'public, max-age=0'}
 
 @app.route('/kuber/<namespace>/pods')
+@cache.cached(timeout=0)
 def get_namespaced_pods(namespace):
     config.load_incluster_config()
     v1 = client.CoreV1Api()
@@ -40,15 +44,16 @@ def get_namespaced_pods(namespace):
             'age': (datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc) - item.status.start_time).total_seconds()
         }
         pods.append(pod)
-    return jsonify(pods)
+    return jsonify(pods), 200, {'Cache-Control': 'public, max-age=0'}
 
 @app.route('/kuber/<namespace>/<pod_name>/logs')
+@cache.cached(timeout=0)
 def get_logs(pod_name, namespace):
     config.load_incluster_config()
     
     v1 = client.CoreV1Api()
     pod_logs = v1.read_namespaced_pod_log(name=pod_name, namespace=namespace)
-    return pod_logs
+    return pod_logs, 200, {'Cache-Control': 'public, max-age=0'}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
