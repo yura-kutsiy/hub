@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, jsonify
 from kubernetes import client, config
 from flask_cors import CORS
@@ -13,16 +14,16 @@ def get_pods():
 
     v1 = client.CoreV1Api()
     pods_list = v1.list_namespaced_pod(namespace='app', watch=False)
-    pods_data = []
-    for pod in pods_list.items:
-        pod_dict = pod.to_dict()
-        pod_data = {
-            "name": pod_dict['metadata']['name'],
-            "status": pod_dict['status']['phase'],
-            "age": pod_dict['metadata']['creation_timestamp']
+    pods = []
+    for item in pods_list.items:
+        pod = {
+            'name': item.metadata.name,
+            'status': item.status.phase,
+            'restart_count': item.status.container_statuses[0].restart_count,
+            'age': (datetime.now() - item.status.start_time.datetime).total_seconds()
         }
-        pods_data.append(pod_data)
-    return jsonify(pods_data)
+        pods.append(pod)
+    return jsonify(pods)
 
 @app.route('/kuber/<namespace>/pods')
 def get_namespaced_pods(namespace):
@@ -30,16 +31,16 @@ def get_namespaced_pods(namespace):
 
     v1 = client.CoreV1Api()
     pods_list = v1.list_namespaced_pod(namespace=namespace, watch=False)
-    pods_data = []
-    for pod in pods_list.items:
-        pod_dict = pod.to_dict()
-        pod_data = {
-            "name": pod_dict['metadata']['name'],
-            "status": pod_dict['status']['phase'],
-            "age": pod_dict['metadata']['creation_timestamp']
+    pods = []
+    for item in pods_list.items:
+        pod = {
+            'name': item.metadata.name,
+            'status': item.status.phase,
+            'restart_count': item.status.container_statuses[0].restart_count,
+            'age': (datetime.now() - item.status.start_time.datetime).total_seconds()
         }
-        pods_data.append(pod_data)
-    return jsonify(pods_data)
+        pods.append(pod)
+    return jsonify(pods)
 
 @app.route('/kuber/<namespace>/<pod_name>/logs')
 def get_logs(pod_name, namespace):
