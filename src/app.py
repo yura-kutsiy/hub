@@ -16,7 +16,7 @@ def get_pods():
     config.load_incluster_config()
     v1 = client.CoreV1Api()
 
-    pods_list = v1.list_namespaced_pod(namespace='app', watch=False)
+    pods_list = v1.list_namespaced_pod(namespace='app', watch=False, include_uninitialized=True)
     pods = []
     for item in pods_list.items:
         pod = {
@@ -34,7 +34,7 @@ def get_namespaced_pods(namespace):
     config.load_incluster_config()
     v1 = client.CoreV1Api()
 
-    pods_list = v1.list_namespaced_pod(namespace=namespace, watch=False)
+    pods_list = v1.list_namespaced_pod(namespace=namespace, watch=False, include_uninitialized=True)
     pods = []
     for item in pods_list.items:
         pod = {
