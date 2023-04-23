@@ -20,7 +20,7 @@ def get_pods():
         pod = {
             'name': item.metadata.name,
             'status': item.status.phase,
-            'restart_count': item.status.container_statuses[0].restart_count,
+            'restarts': item.status.container_statuses[0].restart_count,
             'age': (datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc) - item.status.start_time).total_seconds()
         }
         pods.append(pod)
