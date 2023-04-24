@@ -1,0 +1,9 @@
+{
+    "cluster_name": "develop",
+    "namespaces": [
+      "app",
+      "jenkins",
+      "argocd"
+    ]
+  }
+  
