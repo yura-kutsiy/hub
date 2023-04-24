@@ -1,8 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from kubernetes import client, config
 from flask_cors import CORS
 import datetime
 from flask_caching import Cache
+import os
 
 config.load_incluster_config()
 
@@ -54,6 +55,12 @@ def get_logs(pod_name, namespace):
     v1 = client.CoreV1Api()
     pod_logs = v1.read_namespaced_pod_log(name=pod_name, namespace=namespace)
     return pod_logs, 200, {'Cache-Control': 'public, max-age=0'}
+
+@app.route('/kuber/namespaces')
+def get_namespaces():
+    with open(os.path.join(os.getcwd(), 'namespaces.json'), 'r') as f:
+        namespace = f.read()
+    return namespace
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
