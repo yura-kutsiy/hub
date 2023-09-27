@@ -5,7 +5,10 @@ import datetime
 from flask_caching import Cache
 import os
 
-config.load_incluster_config()
+try:
+    config.load_incluster_config()
+except config.config_exception.ConfigException:
+    config.load_kube_config()
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +17,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'null'})
 @app.route('/kuber/pods')
 @cache.cached(timeout=0)
 def get_pods():
-    config.load_incluster_config()
+    # config.load_incluster_config()
     v1 = client.CoreV1Api()
 
     pods_list = v1.list_namespaced_pod(namespace='app', watch=False) # + "include_uninitialized=True" for terminating state, with k3s doesn't work (error)
@@ -32,7 +35,7 @@ def get_pods():
 @app.route('/kuber/<namespace>/pods')
 @cache.cached(timeout=0)
 def get_namespaced_pods(namespace):
-    config.load_incluster_config()
+    # config.load_incluster_config()
     v1 = client.CoreV1Api()
 
     pods_list = v1.list_namespaced_pod(namespace=namespace, watch=False) #  + "include_uninitialized=True" for terminating state, with k3s doesn't work (error)
@@ -50,7 +53,7 @@ def get_namespaced_pods(namespace):
 @app.route('/kuber/<namespace>/<pod_name>/logs')
 @cache.cached(timeout=0)
 def get_logs(pod_name, namespace):
-    config.load_incluster_config()
+    # config.load_incluster_config()
     
     v1 = client.CoreV1Api()
     pod_logs = v1.read_namespaced_pod_log(name=pod_name, namespace=namespace)
@@ -61,6 +64,35 @@ def get_namespaces():
     with open(os.path.join(os.getcwd(), 'namespaces.json'), 'r') as f:
         namespace = f.read()
     return namespace
+
+@app.route('/kuber/<namespace>/services')
+@cache.cached(timeout=0)
+def get_services(namespace):
+    # config.load_incluster_config()
+    v1 = client.CoreV1Api()
+
+    services_list = v1.list_namespaced_service(namespace=namespace, watch=False)
+    nodeport_services = []
+
+    for item in services_list.items:
+        if item.spec.type == "NodePort":
+            service = {
+                'name': item.metadata.name,
+                'type': item.spec.type,
+                'ports': [
+                    {
+                        'name': port.name,
+                        'port': port.port,
+                        'targetPort': port.target_port,
+                        'nodePort': port.node_port,
+                    }
+                    for port in item.spec.ports
+                ],
+            }
+            nodeport_services.append(service)
+
+    return jsonify(nodeport_services), 200, {'Cache-Control': 'public, max-age=0'}
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
