@@ -109,6 +109,51 @@ def get_nodes():
 
     return jsonify(node_ips), 200, {'Cache-Control': 'public, max-age=0'}
 
+@app.route('/kuber/nodeport-services')
+@cache.cached(timeout=0)
+def get_nodeport_services_and_nodes():
+    # config.load_incluster_config()
+    v1 = client.CoreV1Api()
+    apps_v1 = client.AppsV1Api()
+
+    nodeport_services = []
+
+    # List all services in the cluster
+    services_list = v1.list_service_for_all_namespaces().items
+
+    # Iterate through each service
+    for service in services_list:
+        # Check if the service is of type NodePort
+        if service.spec.type == "NodePort":
+            nodeport_service = {
+                'namespace': service.metadata.namespace,
+                'name': service.metadata.name,
+                'node_ports': [serialize_service_port(port) for port in service.spec.ports],
+                'target_ports': [serialize_service_port(port) for port in service.spec.ports],
+                'nodes': [],
+            }
+
+            # List all pods in the same namespace as the service
+            pods_list = v1.list_namespaced_pod(namespace=service.metadata.namespace).items
+
+            # Iterate through each pod to find the node it's running on
+            for pod in pods_list:
+                nodeport_service_name = pod.metadata.name.split("-")[0]
+                if nodeport_service_name == service.metadata.name:
+                    # Add the node to the list of nodes associated with the service
+                    nodeport_service['nodes'].append(pod.spec.node_name)
+
+            nodeport_services.append(nodeport_service)
+
+    return jsonify(nodeport_services), 200, {'Cache-Control': 'public, max-age=0'}
+
+def serialize_service_port(service_port):
+    return {
+        'name': service_port.name,
+        'port': service_port.port,
+        'targetPort': service_port.target_port,
+        'nodePort': service_port.node_port,
+    }
 
 
 if __name__ == '__main__':
