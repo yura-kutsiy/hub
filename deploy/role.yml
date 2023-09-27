@@ -25,7 +25,9 @@ rules:
   resources: ["namespaces"]
   verbs: ["list"]
 - apiGroups: [""]
-  resources: ["nodes"]
+  resources: 
+  - nodes
+  - nodes/proxy
   verbs: ["list", "get"]
 ---
 kind: ClusterRoleBinding
