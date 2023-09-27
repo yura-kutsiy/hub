@@ -93,6 +93,23 @@ def get_services(namespace):
 
     return jsonify(nodeport_services), 200, {'Cache-Control': 'public, max-age=0'}
 
+@app.route('/kuber/nodes/ips')
+@cache.cached(timeout=0)
+def get_nodes():
+    # config.load_incluster_config()
+    v1 = client.CoreV1Api()
+
+    nodes_list = v1.list_node()
+    node_ips = []
+
+    for node in nodes_list.items:
+        for address in node.status.addresses:
+            if address.type == "InternalIP":
+                node_ips.append(address.address)
+
+    return jsonify(node_ips), 200, {'Cache-Control': 'public, max-age=0'}
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
