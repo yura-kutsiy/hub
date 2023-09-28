@@ -112,7 +112,6 @@ def get_nodes():
 @app.route('/kuber/nodeport-services')
 @cache.cached(timeout=0)
 def get_nodeport_services_and_nodes():
-    # config.load_incluster_config()
     v1 = client.CoreV1Api()
     apps_v1 = client.AppsV1Api()
 
@@ -120,6 +119,10 @@ def get_nodeport_services_and_nodes():
 
     # List all services in the cluster
     services_list = v1.list_service_for_all_namespaces().items
+
+    # Fetch the list of nodes and their IPs
+    nodes_list = v1.list_node().items
+    node_ips = {node.metadata.name: node.status.addresses[0].address for node in nodes_list if node.status.addresses}
 
     # Iterate through each service
     for service in services_list:
@@ -129,7 +132,6 @@ def get_nodeport_services_and_nodes():
                 'namespace': service.metadata.namespace,
                 'name': service.metadata.name,
                 'node_ports': [serialize_service_port(port) for port in service.spec.ports],
-                'target_ports': [serialize_service_port(port) for port in service.spec.ports],
                 'nodes': [],
             }
 
@@ -143,9 +145,16 @@ def get_nodeport_services_and_nodes():
                     # Add the node to the list of nodes associated with the service
                     nodeport_service['nodes'].append(pod.spec.node_name)
 
+            # Determine the Node IP for each NodePort
+            for node_name in nodeport_service['nodes']:
+                for port in nodeport_service['node_ports']:
+                    port['node_ip'] = node_ips.get(node_name, 'Unknown')
+
             nodeport_services.append(nodeport_service)
 
     return jsonify(nodeport_services), 200, {'Cache-Control': 'public, max-age=0'}
+
+
 
 def serialize_service_port(service_port):
     return {
