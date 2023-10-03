@@ -1,16 +1,25 @@
+# Use the official Python image as the base image
 FROM python:3.9-slim
 
-# RUN apt-get clean \
-#     && apt-get -y update
+# Install build-essential and clean the package manager cache
+RUN apt-get update && apt-get install -y build-essential && apt-get clean
 
-# RUN apt-get -y install build-essential
-
+# Set the working directory in the container
 WORKDIR /app
 
-COPY src/requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# Create a virtual environment and activate it
+RUN python -m venv venv
+ENV PATH="/app/venv/bin:$PATH"
 
-COPY src .
+# Copy the requirements file and install the dependencies
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the source code into the container
+COPY src /app
+
+# Expose port 8000 for the Flask application
 EXPOSE 8000
-CMD [ "python", "app.py" ]
+
+# Command to run the Flask application
+CMD ["python", "app.py"]
