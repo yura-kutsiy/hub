@@ -1,8 +1,8 @@
 # Use the official Python image as the base image
 FROM python:3.9-slim
 
-# Install build-essential and clean the package manager cache
-RUN apt-get update && apt-get install -y build-essential && apt-get clean
+# # Install build-essential and clean the package manager cache
+# RUN apt-get update && apt-get install -y build-essential && apt-get clean
 
 # Set the working directory in the container
 WORKDIR /app
