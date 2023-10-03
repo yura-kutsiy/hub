@@ -159,8 +159,6 @@ def get_nodeport_services_and_nodes():
 def serialize_service_port(service_port):
     return {
         'name': service_port.name,
-        'port': service_port.port,
-        'targetPort': service_port.target_port,
         'nodePort': service_port.node_port,
     }
 
