@@ -14,11 +14,13 @@ RUN pip install -r requirements.txt --src /usr/local/src
 COPY src .
 
 
-# Create the final image
-FROM scratch
-# Copy files from amd64 and arm64 images based on the host architecture
-COPY --from=stage-amd64 / /
-COPY --from=stage-arm64 / /
+# Create the final image using a compatible base image
+FROM python:3.9-slim
 WORKDIR /app
 EXPOSE 8000
+
+# Copy files from amd64 and arm64 stages based on the host architecture
+COPY --from=stage-amd64 /app /app
+COPY --from=stage-arm64 /app /app
+
 CMD [ "python", "app.py" ]
