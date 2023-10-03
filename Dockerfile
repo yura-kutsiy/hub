@@ -12,7 +12,7 @@ RUN python -m venv venv
 ENV PATH="/app/venv/bin:$PATH"
 
 # Copy the requirements file and install the dependencies
-COPY requirements.txt requirements.txt
+COPY src/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the source code into the container
