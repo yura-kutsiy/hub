@@ -7,7 +7,7 @@ COPY src .
 
 
 # Declare stage using linux/arm64 base image
-FROM --platform=linux/arm64 python:3.9-slim as stage-arm64
+FROM --platform=linux/arm64 arm64v8/python:3.9-slim as stage-arm64
 WORKDIR /app
 COPY src/requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt --src /usr/local/src
