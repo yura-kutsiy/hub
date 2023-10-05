@@ -1,8 +1,0 @@
-{
-    "optional_name": "local-develop-cluster",
-    "namespaces": [
-      "app",
-      "argocd",
-      "metallb"
-    ]
-  }
