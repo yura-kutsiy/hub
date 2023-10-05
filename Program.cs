@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<KubernetesServices>();
+builder.WebHost.UseUrls("http://0.0.0.0:8000");
 
 var app = builder.Build();
 
@@ -20,7 +21,7 @@ var app = builder.Build();
 //     app.UseSwaggerUI();
 // }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
