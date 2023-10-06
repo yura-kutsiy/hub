@@ -24,7 +24,7 @@ namespace services
 
             return services;
         }
-        public async Task<List<KubernetesServiceDto>> GetKubernetesServicesAllAsync()
+        public async Task<List<KubernetesServiceDto>> GetKubernetesServicesNodePortsAsync()
         {
             var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
             using var client = new Kubernetes(config);
