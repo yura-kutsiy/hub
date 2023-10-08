@@ -1,4 +1,6 @@
 using k8s;
+using k8s.Models;
+using Config;
 
 namespace services
 {
@@ -11,8 +13,8 @@ namespace services
     {
         public async Task<List<string>> GetKubernetesServicesAsync()
         {
-            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
-            using var client = new Kubernetes(config);
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
 
             var services = new List<string>();
 
@@ -26,8 +28,8 @@ namespace services
         }
         public async Task<List<KubernetesServiceDto>> GetKubernetesServicesNodePortsAsync()
         {
-            var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
-            using var client = new Kubernetes(config);
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
 
             var services = new List<KubernetesServiceDto>();
 
