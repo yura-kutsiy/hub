@@ -16,7 +16,7 @@ namespace Config
             catch (Exception)
             {
                 // If in-cluster config fails, use config from file
-                config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
+                config = KubernetesClientConfiguration.BuildConfigFromConfigFile(Environment.GetEnvironmentVariable("KUBECONFIG"));
             }
 
             return config;
