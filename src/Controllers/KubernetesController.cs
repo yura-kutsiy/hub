@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using services;
+using Services;
 
 namespace kuberApi.Controllers
 {

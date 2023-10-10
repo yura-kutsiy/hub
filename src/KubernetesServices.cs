@@ -2,7 +2,7 @@ using k8s;
 using k8s.Models;
 using Config;
 
-namespace services
+namespace Services
 {
     public class KubernetesServiceDto
     {
