@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using k8s;
+using Config;
 
 namespace kuberApi.Controllers
 {
@@ -32,5 +34,28 @@ namespace kuberApi.Controllers
             return Ok(services);
         }
 
+        // GET api/kuber/nodes
+        [HttpGet("nodes/nodesIP")]
+        public async Task<ActionResult<IEnumerable<string>>> GetKubernetesNodes()
+        {
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
+
+            var nodeList = await client.ListNodeAsync();
+            var nodeIps = new List<string>();
+
+            foreach (var node in nodeList.Items)
+            {
+                foreach (var address in node.Status.Addresses)
+                {
+                    if (address.Type == "InternalIP")
+                    {
+                        nodeIps.Add(address.Address);
+                    }
+                }
+            }
+
+            return Ok(nodeIps);
+        }
     }
 }
