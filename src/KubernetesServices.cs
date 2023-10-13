@@ -13,12 +13,9 @@ namespace services
     {
         public async Task<List<string>> GetKubernetesServicesAsync()
         {
-            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
-            var client = new Kubernetes(config);
+            var serviceList = await GetServiceList();
 
             var services = new List<string>();
-
-            var serviceList = await client.ListServiceForAllNamespacesAsync();
             foreach (var service in serviceList.Items)
             {
                 services.Add(service.Metadata.Name);
@@ -28,12 +25,9 @@ namespace services
         }
         public async Task<List<KubernetesServiceDto>> GetKubernetesServicesNodePortsAsync()
         {
-            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
-            var client = new Kubernetes(config);
+            var serviceList = await GetServiceList();
 
             var services = new List<KubernetesServiceDto>();
-
-            var serviceList = await client.ListServiceForAllNamespacesAsync();
             foreach (var service in serviceList.Items)
             {
                 var nodePort = service.Spec.Ports?.FirstOrDefault()?.NodePort;
@@ -52,6 +46,12 @@ namespace services
             return services;
         }
 
-
+        private async Task<V1ServiceList> GetServiceList()
+        {
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
+            var serviceList = await client.ListServiceForAllNamespacesAsync();
+            return serviceList;
+        }
     }
 }
