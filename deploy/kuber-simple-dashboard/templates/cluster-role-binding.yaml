@@ -1,0 +1,12 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "kuber-simple-dashboard.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: kuber-api-sa
+  namespace: app
+roleRef:
+  kind: ClusterRole
+  name: kuber-api-clr
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,13 @@
+namespace: tmp
+
+service:
+  type: NodePort
+
+api:
+  image:
+    tag: "0.4.0"
+
+optional_name: local-DEV-cluster
+list_namespace:
+  - app
+  - argocd
