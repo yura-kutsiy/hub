@@ -4,9 +4,9 @@ metadata:
   name: {{ include "kuber-simple-dashboard.fullname" . }}
 subjects:
 - kind: ServiceAccount
-  name: kuber-api-sa
-  namespace: app
+  name: {{ include "kuber-simple-dashboard.fullname" . }}
+  namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
-  name: kuber-api-clr
+  name: {{ include "kuber-simple-dashboard.fullname" . }}
   apiGroup: rbac.authorization.k8s.io

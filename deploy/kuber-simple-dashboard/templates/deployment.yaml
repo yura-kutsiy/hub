@@ -16,7 +16,7 @@ spec:
       labels:
         app: kuberapi
     spec:
-      serviceAccountName: kuber-api-sa
+      serviceAccountName: {{ include "kuber-simple-dashboard.fullname" . }}
       containers:
         - name: kuberapi
           image: yurasdockers/kuberapi:{{ .Values.api.image.tag }}

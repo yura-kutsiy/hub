@@ -5,4 +5,4 @@ metadata:
   namespace: {{ .Values.namespace | quote }}
 data:
   optional_name: {{ .Values.optional_name | quote }}
-  list_namespace: {{- .Values.list_namespace | toYaml | nindent 4 }}
+  list_namespace: {{ .Values.list_namespace | quote }}
