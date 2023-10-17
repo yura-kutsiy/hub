@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "kuber-simple-dashboard.fullname" . }}
+  name:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}
   namespace: {{ .Values.namespace | quote }}
   labels:
     app: kuberapi
@@ -16,7 +16,7 @@ spec:
       labels:
         app: kuberapi
     spec:
-      serviceAccountName: {{ include "kuber-simple-dashboard.fullname" . }}
+      serviceAccountName:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}
       containers:
         - name: kuberapi
           image: yurasdockers/kuberapi:{{ .Values.api.image.tag }}

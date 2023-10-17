@@ -1,7 +1,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "kuber-simple-dashboard.fullname" . }}
+  name:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}
   labels:
     app: kuberapi
 rules:
