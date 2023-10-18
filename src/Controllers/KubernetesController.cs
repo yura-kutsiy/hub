@@ -57,5 +57,24 @@ namespace kuberApi.Controllers
 
             return Ok(nodeIps);
         }
+
+        // GET api/kuber/{namespace}/pods
+        [HttpGet("{namespace}/pods")]
+        public async Task<ActionResult<IEnumerable<string>>> GetKubernetesPods(string @namespace)
+        {
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
+
+            var podList = await client.ListNamespacedPodAsync(@namespace);
+            var podNames = new List<string>();
+
+            foreach (var pod in podList.Items)
+            {
+                podNames.Add(pod.Metadata.Name);
+            }
+
+            return Ok(podNames);
+        }
+
     }
 }
