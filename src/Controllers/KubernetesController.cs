@@ -58,22 +58,38 @@ namespace kuberApi.Controllers
             return Ok(nodeIps);
         }
 
+        public class PodInfo
+        {
+            public string? Name { get; set; }
+            public string? Status { get; set; }
+            public int Restarts { get; set; }
+            public string? Age { get; set; }
+        }
+
         // GET api/kuber/{namespace}/pods
         [HttpGet("{namespace}/pods")]
-        public async Task<ActionResult<IEnumerable<string>>> GetKubernetesPods(string @namespace)
+        public async Task<ActionResult<IEnumerable<PodInfo>>> GetKubernetesPods(string @namespace)
         {
             KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
             var client = new Kubernetes(config);
 
             var podList = await client.ListNamespacedPodAsync(@namespace);
-            var podNames = new List<string>();
+            var podInfos = new List<PodInfo>();
 
             foreach (var pod in podList.Items)
             {
-                podNames.Add(pod.Metadata.Name);
+                var podInfo = new PodInfo
+                {
+                    Name = pod.Metadata.Name,
+                    Status = pod.Status.Phase,
+                    Restarts = pod.Status.ContainerStatuses.Sum(container => container.RestartCount),
+                    Age = pod.Metadata.CreationTimestamp.ToString() // You might want to format the age according to your requirements
+                };
+
+                podInfos.Add(podInfo);
             }
 
-            return Ok(podNames);
+            return Ok(podInfos);
         }
 
     }
