@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}-ns-list
+  name: {{ include "release.shortName" . }}-ns-list
   namespace: {{ .Values.namespace | quote }}
 data:
   namespaces.json: |

@@ -60,3 +60,8 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+###custom name
+{{- define "release.shortName" -}}
+{{- printf "%.15s" .Release.Name  | trunc 15 | trimSuffix "-" -}}
+{{- end -}}

@@ -1,12 +1,12 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}
+  name: {{ include "release.shortName" . }}-crb
 subjects:
 - kind: ServiceAccount
-  name:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}
+  name: {{ include "release.shortName" . }}-sa
   namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
-  name:  {{ .Release.Name | trunc 15 | trimSuffix "-" }}
+  name: {{ include "release.shortName" . }}-clr
   apiGroup: rbac.authorization.k8s.io
