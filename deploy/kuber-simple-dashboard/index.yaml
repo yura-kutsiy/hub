@@ -3,12 +3,12 @@ entries:
   kuber-simple-dashboard:
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2023-10-19T23:52:48.196744809+02:00"
+    created: "2023-10-20T00:23:03.700991687+02:00"
     description: A Helm chart for Kubernetes simple Dashboard deploy
     digest: 447abf44f350c0681670fd6e1dd5f19e72eb85bfb86fc724073fd43ea3279334
     name: kuber-simple-dashboard
     type: application
     urls:
-    - https://yura-kutsiy.github.io/hub/kuber-simple-dashboard-0.1.0.tgz
+    - https://yura-kutsiy.github.io/hub/deploy/kuber-simple-dashboard/kuber-simple-dashboard-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-19T23:52:48.196436705+02:00"
+generated: "2023-10-20T00:23:03.700574793+02:00"
