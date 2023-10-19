@@ -8,4 +8,6 @@ api:
     tag: "0.3.4"
 
 optional_name: local-DEV-cluster
-list_namespace: "app, argocd"
+list_namespace: 
+  - app
+  - argocd
