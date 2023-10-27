@@ -5,4 +5,4 @@ FROM nginx:latest
 WORKDIR /usr/share/nginx/html
 
 # Copy the frontend files into the container at /usr/share/nginx/html
-COPY . .
+# COPY . .

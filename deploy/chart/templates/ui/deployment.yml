@@ -31,3 +31,10 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: web-content
+        configMap:
+          name: web-content-configmap
