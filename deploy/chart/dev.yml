@@ -1,4 +1,4 @@
-namespace: tmp
+namespace: app
 service:
   type: NodePort
 api:
