@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "release.shortName" . }}-ui
+  namespace: {{ .Values.namespace | quote }}
+  labels:
+    app: kuberui
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: kuberui
+  template:
+    metadata:
+      labels:
+        app: kuberui
+    spec:
+      containers:
+        - name: kuberui
+          image: yurasdockers/kuberui:{{ .Values.ui.image.tag }}
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: 128Mi
+              cpu: "100m"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config
