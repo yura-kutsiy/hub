@@ -40,6 +40,3 @@ spec:
       - name: nginx-config
         configMap:
           name: nginx-config
-      - name: web-content
-        configMap:
-          name: web-content-configmap
