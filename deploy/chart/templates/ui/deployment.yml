@@ -31,6 +31,11 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/conf.d
+          - name: web-content
+            mountPath: /usr/share/nginx/html
       volumes:
       - name: nginx-config
         configMap:
