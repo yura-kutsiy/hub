@@ -1,0 +1,108 @@
+#namespace-title {
+    margin-left: 27%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+}
+
+#dashboard-name h1 {
+    margin: 0;
+    /* font-size: 24px;
+    font-weight: bold; */
+}
+
+#dashboard-name {
+    float: left;
+    width: 25%;
+    height: 58px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+}
+
+/* CSS for the left-hand namespace list */
+.namespace-list {
+    float: left;
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+}
+
+/* CSS for centering the "Namespaces" heading */
+.namespace-list h2 {
+    text-align: center;
+}
+
+.namespace-item {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.namespace-item:hover {
+    background-color: #ddd;
+}
+
+/* CSS for the center pod list */
+.pod-list {
+    margin-left: 27%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+}
+
+.pod-item {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pod-item:hover {
+    background-color: #ddd;
+}
+
+/* CSS for table headers and cells */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+}
+
+th:nth-child(1) {
+    width: 70%;
+}
+
+th:nth-child(2),
+th:nth-child(3),
+th:nth-child(4) {
+    width: 10%;
+}
+
+th {
+    background-color: #ddd;
+}
+
+/* CSS for general layout and typography */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 32px;
+    margin: 10px;
+    text-align: center;
+}
