@@ -3,11 +3,10 @@ service:
   type: NodePort
 api:
   image:
-    tag: "0.4.0"
+    tag: 0.4.0
 ui:
   image:
-    tag: "0.4.0-helm-chartUI"
-
+    tag: 0.4.1
 optional_name: local-DEV-cluster
 list_namespace:
   - app
