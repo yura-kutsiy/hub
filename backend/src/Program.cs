@@ -1,4 +1,5 @@
 using Services;
+using Nodes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<KubernetesServices>();
+builder.Services.AddSingleton<KubernetesNodes>();
 builder.WebHost.UseUrls("http://0.0.0.0:8000");
 
 var app = builder.Build();

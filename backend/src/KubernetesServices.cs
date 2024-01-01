@@ -51,6 +51,7 @@ namespace Services
             KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
             var client = new Kubernetes(config);
             var serviceList = await client.ListServiceForAllNamespacesAsync();
+            
             return serviceList;
         }
     }

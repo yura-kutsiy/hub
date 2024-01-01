@@ -7,11 +7,12 @@ namespace kuberApi.PodControllers
     [Route("kuber/")]
     public class KubernetesController : ControllerBase
     {
-        // GET api/kuber/{namespace}/pods
+        // GET kuber/{namespace}/pods
         [HttpGet("{namespace}/pods")]
         public async Task<ActionResult<IEnumerable<PodInfo>>> GetKubernetesPods(string @namespace)
         {
             var podInfos = await KubernetesPods.GetKubernetesPods(@namespace);
+
             return Ok(podInfos);
         }
     }
