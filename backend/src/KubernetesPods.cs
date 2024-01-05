@@ -36,5 +36,21 @@ namespace Pods
 
             return podInfos;
         }
+
+        public static async Task<string> GetPodLogs(string @namespace, string podName)
+        // public static async Task<string> GetPodLogs(string @namespace, string podName, string containerName)
+        {
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
+
+            var response = await client.CoreV1.ReadNamespacedPodLogWithHttpMessagesAsync(
+                podName, @namespace, follow: false).ConfigureAwait(false);
+                // podName, @namespace, container: containerName, follow: false).ConfigureAwait(false);
+
+            using (var streamReader = new StreamReader(response.Body))
+            {
+                return await streamReader.ReadToEndAsync();
+            }
+        }
     }
 }
