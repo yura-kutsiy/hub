@@ -129,6 +129,13 @@ function showLogs(namespace, pod, logs) {
       logSection.id = "log-section";
       logSection.classList.add("log-section");
 
+      const closeButton = document.createElement("button");
+      closeButton.textContent = "Close";
+      closeButton.addEventListener("click", () => {
+          document.body.removeChild(logSection);
+      });
+      logSection.appendChild(closeButton);
+
       const logHeader = document.createElement("h2");
       logHeader.textContent = `Logs for ${pod} in namespace ${namespace}`;
 
@@ -146,13 +153,5 @@ function showLogs(namespace, pod, logs) {
       logSection.style.margin = "10px";
       logSection.style.padding = "10px";
       logSection.style.backgroundColor = "#f2f2f2";
-
-      // Optionally, add a close button to remove the log section
-      const closeButton = document.createElement("button");
-      closeButton.textContent = "Close";
-      closeButton.addEventListener("click", () => {
-          document.body.removeChild(logSection);
-      });
-      logSection.appendChild(closeButton);
   }
 }
