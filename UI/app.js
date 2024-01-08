@@ -73,7 +73,6 @@ if (namespaceItems?.length) {
                   <td colspan="4">
                       <button class="log-button" data-namespace="${namespace}" data-pod="${pod.name}">logs</button>
                   </td>
-                  </td>
                 </tr>
               `;
               table.innerHTML += tableRow;
@@ -95,8 +94,8 @@ if (namespaceItems?.length) {
                 fetch(logsApiUrl)
                   .then((logsResponse) => logsResponse.text())
                   .then((logsData) => {
-                    // Display logs in the console, you can modify this to display or handle logs as needed
-                    console.log(logsData);
+                    // Create and show a log section
+                    showLogs(clickedNamespace, clickedPod, logsData);
                   })
                   .catch(() => {
                     console.error(`Error fetching logs for pod ${clickedPod}`);
@@ -110,4 +109,50 @@ if (namespaceItems?.length) {
         });
     });
   });
+}
+
+// Function to create or update the log section
+function showLogs(namespace, pod, logs) {
+  // Check if the log section already exists
+  const existingLogSection = document.getElementById("log-section");
+
+  // If the log section exists, update its content
+  if (existingLogSection) {
+      const logHeader = existingLogSection.querySelector("h2");
+      const logContent = existingLogSection.querySelector("pre");
+
+      logHeader.textContent = `Logs for ${pod} in namespace ${namespace}`;
+      logContent.textContent = logs;
+  } else {
+      // If the log section doesn't exist, create a new one
+      const logSection = document.createElement("div");
+      logSection.id = "log-section";
+      logSection.classList.add("log-section");
+
+      const logHeader = document.createElement("h2");
+      logHeader.textContent = `Logs for ${pod} in namespace ${namespace}`;
+
+      const logContent = document.createElement("pre");
+      logContent.textContent = logs;
+
+      logSection.appendChild(logHeader);
+      logSection.appendChild(logContent);
+
+      // Append the log section to the body
+      document.body.appendChild(logSection);
+
+      // Style the log section (you can customize this further)
+      logSection.style.border = "2px solid DodgerBlue";
+      logSection.style.margin = "10px";
+      logSection.style.padding = "10px";
+      logSection.style.backgroundColor = "#f2f2f2";
+
+      // Optionally, add a close button to remove the log section
+      const closeButton = document.createElement("button");
+      closeButton.textContent = "Close";
+      closeButton.addEventListener("click", () => {
+          document.body.removeChild(logSection);
+      });
+      logSection.appendChild(closeButton);
+  }
 }
