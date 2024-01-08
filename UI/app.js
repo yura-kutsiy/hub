@@ -71,8 +71,7 @@ if (namespaceItems?.length) {
                 </tr>
                 <tr>
                   <td colspan="4">
-                  <td colspan="4">
-                      <button class="log-button" data-namespace="${namespace}" data-pod="${pod.name}">View Logs</button>
+                      <button class="log-button" data-namespace="${namespace}" data-pod="${pod.name}">logs</button>
                   </td>
                   </td>
                 </tr>
