@@ -59,21 +59,9 @@ if (namespaceItems?.length) {
               if (ageInSeconds < 60) {
                 ageString = `${Math.floor(ageInSeconds)} sec`;
               } else if (ageInSeconds < 3600) {
-                const minutes = Math.floor(ageInSeconds / 60);
-                ageString = `${minutes} min`;
-              } else if (ageInSeconds < 86400) {
-                const hours = Math.floor(ageInSeconds / 3600);
-                const minutes = Math.floor((ageInSeconds % 3600) / 60);
-                ageString = `${hours}h ${minutes}min`;
-              } else if (ageInSeconds < 604800) {
-                const days = Math.floor(ageInSeconds / 86400);
-                const hours = Math.floor((ageInSeconds % 86400) / 3600);
-                ageString = `${days}d ${hours}h`;
-              } else {
-                const days = Math.floor(ageInSeconds / 86400);
-                const hours = Math.floor((ageInSeconds % 86400) / 3600);
-                ageString = `${days}d`;
+                // ... (existing code for formatting ageString)
               }
+
               const tableRow = `
                 <tr>
                   <td>${pod.name}</td>
@@ -81,18 +69,45 @@ if (namespaceItems?.length) {
                   <td>${pod.restarts}</td>
                   <td>${ageString}</td>
                 </tr>
+                <tr>
+                  <td colspan="4">
+                  <td colspan="4">
+                      <button class="log-button" data-namespace="${namespace}" data-pod="${pod.name}">View Logs</button>
+                  </td>
+                  </td>
+                </tr>
               `;
               table.innerHTML += tableRow;
             });
           }
 
           podList.appendChild(table);
+
+          // Add event listeners to the log buttons
+          const logButtons = document.querySelectorAll(".log-button");
+          if (logButtons?.length) {
+            logButtons.forEach((button) => {
+              button.addEventListener("click", () => {
+                const clickedNamespace = button.dataset.namespace;
+                const clickedPod = button.dataset.pod;
+
+                // Fetch logs for the clicked pod
+                const logsApiUrl = `/kuber/${clickedNamespace}/pods/${clickedPod}/logs`;
+                fetch(logsApiUrl)
+                  .then((logsResponse) => logsResponse.text())
+                  .then((logsData) => {
+                    // Display logs in the console, you can modify this to display or handle logs as needed
+                    console.log(logsData);
+                  })
+                  .catch(() => {
+                    console.error(`Error fetching logs for pod ${clickedPod}`);
+                  });
+              });
+            });
+          }
         })
         .catch(() => {
-          console.error(
-            `Error fetching data for namespace ${namespace}:,
-              error`
-          );
+          console.error(`Error fetching data for namespace ${namespace}`);
         });
     });
   });
