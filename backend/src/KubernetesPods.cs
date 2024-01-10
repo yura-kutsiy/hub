@@ -8,7 +8,7 @@ namespace Pods
         public string? Name { get; set; }
         public string? Status { get; set; }
         public int Restarts { get; set; }
-        public string? Age { get; set; }
+        public int AgeInSeconds { get; set; }
     }
 
     public static class KubernetesPods
@@ -21,17 +21,29 @@ namespace Pods
             var podList = await client.ListNamespacedPodAsync(@namespace);
             var podInfos = new List<PodInfo>();
 
+            // Get the current time in the UTC time zone
+            var currentTimeUtc = DateTime.UtcNow;
+
             foreach (var pod in podList.Items)
             {
-                var podInfo = new PodInfo
-                {
-                    Name = pod.Metadata.Name,
-                    Status = pod.Status.Phase,
-                    Restarts = pod.Status.ContainerStatuses.Sum(container => container.RestartCount),
-                    Age = pod.Metadata.CreationTimestamp.ToString()
-                };
+                // Convert pod creation timestamp to UTC
+                var creationTimestampUtc = pod.Metadata.CreationTimestamp?.ToUniversalTime();
 
-                podInfos.Add(podInfo);
+                if (creationTimestampUtc != null)
+                {
+                    var ageTimeSpan = currentTimeUtc - creationTimestampUtc.GetValueOrDefault();
+                    var ageInSeconds = (int)ageTimeSpan.TotalSeconds;
+
+                    var podInfo = new PodInfo
+                    {
+                        Name = pod.Metadata.Name,
+                        Status = pod.Status.Phase,
+                        Restarts = pod.Status.ContainerStatuses.Sum(container => container.RestartCount),
+                        AgeInSeconds = ageInSeconds
+                    };
+
+                    podInfos.Add(podInfo);
+                }
             }
 
             return podInfos;
