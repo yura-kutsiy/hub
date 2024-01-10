@@ -54,12 +54,33 @@ if (namespaceItems?.length) {
           table.innerHTML = tableHeader;
           if (data?.length) {
             data.forEach((pod) => {
-              const ageInSeconds = pod.age;
+              // Parse the age string and calculate the age in seconds
+              const ageDate = new Date(pod.age);
+              console.log(pod.age);
+              console.log(ageDate);
+              const now = new Date();
+              console.log(now);
+              const ageInSeconds = Math.floor((now - ageDate) / 1000);
+              console.log(ageInSeconds);
+              
               let ageString = "";
               if (ageInSeconds < 60) {
                 ageString = `${Math.floor(ageInSeconds)} sec`;
               } else if (ageInSeconds < 3600) {
-                // ... (existing code for formatting ageString)
+                const minutes = Math.floor(ageInSeconds / 60);
+                ageString = `${minutes} min`;
+              } else if (ageInSeconds < 86400) {
+                const hours = Math.floor(ageInSeconds / 3600);
+                const minutes = Math.floor((ageInSeconds % 3600) / 60);
+                ageString = `${hours}h ${minutes}min`;
+              } else if (ageInSeconds < 604800) {
+                const days = Math.floor(ageInSeconds / 86400);
+                const hours = Math.floor((ageInSeconds % 86400) / 3600);
+                ageString = `${days}d ${hours}h`;
+              } else {
+                const days = Math.floor(ageInSeconds / 86400);
+                const hours = Math.floor((ageInSeconds % 86400) / 3600);
+                ageString = `${days}d`;
               }
 
               const tableRow = `
