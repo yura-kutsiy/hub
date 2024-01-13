@@ -3,6 +3,6 @@
   "namespaces": [
     "app",
     "argocd",
-    "metallb-system"
+    "default"
   ]
 }

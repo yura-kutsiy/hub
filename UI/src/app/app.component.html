@@ -1,1 +1,2 @@
-test
+<div *ngFor="let namespace of sharedConfig.namespaces" (click)="getPodsInfo(namespace)">{{namespace}}</div>
+<div *ngFor="let pod of podsInfo">{{pod.name}} is in "{{pod.status}}" status</div>
