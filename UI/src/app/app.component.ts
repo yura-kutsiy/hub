@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(sharedConfig);
+    this.getPodsInfo('default');
   }
 
   getPodsInfo(namespace: string) {

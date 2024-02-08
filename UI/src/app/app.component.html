@@ -1,2 +1,41 @@
-<div *ngFor="let namespace of sharedConfig.namespaces" (click)="getPodsInfo(namespace)">{{namespace}}</div>
-<div *ngFor="let pod of podsInfo">{{pod.name}} is in "{{pod.status}}" status</div>
+<div class="container">
+    <div class="namespace-list">
+        <div *ngFor="let namespace of sharedConfig.namespaces" (click)="getPodsInfo(namespace)" class="namespace">
+            {{namespace}}</div>
+    </div>
+
+    <div class="pod-list">
+        <div class="pod table-header">
+            <div class="pod-name">
+                Name
+            </div>
+            <div class="pod-status">
+                Status
+            </div>
+            <div class="pod-restarts">
+                Restarts
+            </div>
+            <div class="pod-age">
+                Age
+            </div>
+
+        </div>
+
+        <div *ngFor="let pod of podsInfo" class="pod">
+
+            <div class="pod-name">
+                {{pod.name}}
+            </div>
+            <div class="pod-status">
+                {{pod.status}}
+            </div>
+            <div class="pod-restarts">
+                {{pod.restarts}}
+            </div>
+            <div class="pod-age">
+                {{pod.ageInSeconds}}
+            </div>
+
+        </div>
+    </div>
+</div>
