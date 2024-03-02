@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Nodes;
+using Microsoft.Extensions.Logging;
 
 namespace kuberApi.NodeControllers
 {
@@ -8,23 +9,19 @@ namespace kuberApi.NodeControllers
     public class KubernetesController : ControllerBase
     {
         private readonly KubernetesNodes _kubernetesNodes;
-
         private readonly ILogger<KubernetesController> _logger;
 
-        public KubernetesController(ILogger<KubernetesController> logger)
-        {
-            _logger = logger;
-        }
-        public KubernetesController(KubernetesNodes kubernetesNodes)
+        public KubernetesController(KubernetesNodes kubernetesNodes, ILogger<KubernetesController> logger)
         {
             _kubernetesNodes = kubernetesNodes;
+            _logger = logger;
         }
 
         // GET kuber/nodes
         [HttpGet("nodes/nodesIP")]
         public async Task<ActionResult<IEnumerable<string>>> GetKubernetesNodes()
         {
-            _logger.LogInformation("Retrived nodes IP");
+            _logger.LogInformation("Retrieved nodes IP");
             return await _kubernetesNodes.GetKubernetesNodes();
         }
     }

@@ -39,11 +39,8 @@ namespace kuberApi.PodControllers
             }
         }
 
-        // GET kuber/{namespace}/pods/{podName}/logs/{containerName}
         [HttpGet("{namespace}/pods/{podName}/logs")]
-        // [HttpGet("{namespace}/pods/{podName}/logs/{containerName}")]
         public async Task<ActionResult<string>> GetPodLogs(string @namespace, string podName)
-        // public async Task<ActionResult<string>> GetPodLogs(string @namespace, string podName, string containerName)
         {
             try
             {
@@ -55,6 +52,23 @@ namespace kuberApi.PodControllers
             {
                 // Handle exceptions appropriately and return a meaningful error response
                 _logger.LogError("Error retrieving logs for {podName} in namespace {namespace}", @podName, @namespace);
+                return StatusCode(500, $"Error retrieving logs: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{namespace}/pods/{podName}/logs/{containerName}")]
+        public async Task<ActionResult<string>> GetPodLogs(string @namespace, string podName, string containerName)
+        {
+            try
+            {
+                string logContent = await KubernetesPods.GetPodLogs(@namespace, podName, containerName);
+                _logger.LogInformation("Container {containerName} logs retrieved successfully", @containerName);
+                return Ok(logContent);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately and return a meaningful error response
+                _logger.LogError("Error retrieving logs for {containerName} from {podName} in namespace {namespace}", @containerName, @podName, @namespace);
                 return StatusCode(500, $"Error retrieving logs: {ex.Message}");
             }
         }
