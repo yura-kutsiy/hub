@@ -4,6 +4,14 @@ using Nodes;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.ClearProviders(); // Clear the default logging providers
+    loggingBuilder.AddConsole(); // Add console logger
+    loggingBuilder.AddDebug(); // Add debug logger
+});
+
+// Add services to the container.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
