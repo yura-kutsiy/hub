@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
 
   activeRowNumber: number | null = null;
   namespace?: string;
+  activeNamespace: string | null = null;
 
   constructor(public httpClient: HttpClient) { }
 
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit {
     this.httpClient.get('http://192.168.0.28:31135/kuber/' + namespace + '/pods').subscribe((podsInfo: any) => {
       console.log(podsInfo);
       this.podsInfo = this.convertAge(podsInfo);
-      this.namespace = namespace;
+      this.activeNamespace = namespace; // Set active namespace
     });
   }
 

@@ -3,6 +3,7 @@
   "namespaces": [
     "app",
     "argocd",
+    "argo",
     "default"
   ]
 }
