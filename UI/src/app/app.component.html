@@ -1,4 +1,5 @@
 <div class="container">
+
     <div class="namespace-list">
         <div *ngFor="let namespace of sharedConfig.namespaces" (click)="getPodsInfo(namespace)" class="namespace">
             {{namespace}}</div>
@@ -7,35 +8,41 @@
     <div class="pod-list">
         <div class="pod table-header">
             <div class="pod-name">
-                Name
+                NAME
             </div>
             <div class="pod-status">
-                Status
+                STATUS
             </div>
             <div class="pod-restarts">
-                Restarts
+                RESTARTS
             </div>
             <div class="pod-age">
-                Age
+                AGE
             </div>
-
         </div>
 
-        <div *ngFor="let pod of podsInfo" class="pod">
+        <ng-container *ngFor="let pod of podsInfo; index as i">
+            <div class="pod pod-row" (click)="openPodDetailes(i)">
 
-            <div class="pod-name">
-                {{pod.name}}
-            </div>
-            <div class="pod-status">
-                {{pod.status}}
-            </div>
-            <div class="pod-restarts">
-                {{pod.restarts}}
-            </div>
-            <div class="pod-age">
-                {{pod.ageInSeconds}}
-            </div>
+                <div class="pod-name">
+                    {{pod.name}}
+                </div>
+                <div class="pod-status">
+                    {{pod.status}}
+                </div>
+                <div class="pod-restarts">
+                    {{pod.restarts}}
+                </div>
+                <div class="pod-age">
+                    {{pod.age}}
+                </div>
 
-        </div>
+            </div>
+            <div *ngIf="i === activeRowNumber" class="pod-details">
+                <button class="button">describe</button>
+                <button class="button" (click)="getPodLog(pod.name)">logs</button>
+            </div>
+        </ng-container>
     </div>
+
 </div>
