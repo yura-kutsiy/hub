@@ -36,7 +36,8 @@ export class AppComponent implements OnInit {
     this.httpClient.get('http://192.168.0.28:31135/kuber/' + namespace + '/pods').subscribe((podsInfo: any) => {
       console.log(podsInfo);
       this.podsInfo = this.convertAge(podsInfo);
-      this.activeNamespace = namespace; // Set active namespace
+      this.activeNamespace = namespace;
+      this.activeRowNumber = null;
     });
   }
 
@@ -77,11 +78,7 @@ export class AppComponent implements OnInit {
   }
 
   openPodDetailes(index: number) {
-    if (this.activeRowNumber === index) {
-      this.activeRowNumber = null;
-      return;
-    }
-    this.activeRowNumber = index;
+    this.activeRowNumber = this.activeRowNumber === index ? null : index;
   }
 
 }

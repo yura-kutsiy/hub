@@ -1,7 +1,8 @@
 <div class="container">
 
     <div class="namespace-list">
-        <div *ngFor="let namespace of sharedConfig.namespaces" (click)="getPodsInfo(namespace)" [class.active]="namespace === activeNamespace" class="namespace">
+        <div *ngFor="let namespace of sharedConfig.namespaces" (click)="getPodsInfo(namespace)"
+            [class.active]="namespace === activeNamespace" class="namespace">
             {{namespace}}</div>
     </div>
 
@@ -22,7 +23,7 @@
         </div>
 
         <ng-container *ngFor="let pod of podsInfo; index as i">
-            <div class="pod pod-row" (click)="openPodDetailes(i)">
+            <div class="pod pod-row" (click)="openPodDetailes(i)" [ngClass]="{'active': i === activeRowNumber}">
 
                 <div class="pod-name">
                     {{pod.name}}
@@ -38,7 +39,7 @@
                 </div>
 
             </div>
-            <div *ngIf="i === activeRowNumber" class="pod-details">
+            <div *ngIf="i === activeRowNumber" class="pod active">
                 <button class="button">describe</button>
                 <button class="button" (click)="getPodLog(pod.name)">logs</button>
             </div>

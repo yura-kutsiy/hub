@@ -19,7 +19,7 @@
             // background-color: #34495e;
             background-color: #535C91;
             border-radius: 3px;
-            
+
             &:hover {
                 background-color: #2980b9;
                 transition: all 250ms;
@@ -60,6 +60,11 @@
                 width: 100px;
             }
 
+            &.pod.active {
+                background-color: #126399;
+                color: black;
+            }
+
             &.table-header {
                 background-color: #434b7b;
                 box-shadow: 1px 1px 8px #5a6297;
@@ -84,6 +89,7 @@
 .button {
     background-color: #04AA6D;
     border: none;
+    border-radius: 2px;
     color: white;
     padding: 3px;
     margin: 1px 4px 9px 4px;
