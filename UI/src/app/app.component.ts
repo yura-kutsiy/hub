@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as sharedConfig from '../assets/namespaces.json';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -33,18 +36,26 @@ export class AppComponent implements OnInit {
 
   getPodsInfo(namespace: string) {
     console.log(namespace);
+    this.activeNamespace = namespace;
+    this.namespace = namespace;
+    this.activeRowNumber = null;
     this.httpClient.get('http://192.168.0.28:31135/kuber/' + namespace + '/pods').subscribe((podsInfo: any) => {
-      console.log(podsInfo);
       this.podsInfo = this.convertAge(podsInfo);
-      this.activeNamespace = namespace;
-      this.activeRowNumber = null;
+      console.log(podsInfo);
     });
   }
 
+  //////////
+  //////// implement in API tailLines: 1000
+  //////////
   getPodLog(podName: string) {
     this.httpClient.get('http://192.168.0.28:31135/kuber/' + this.namespace + '/pods/' + podName + '/logs', { responseType: 'text' }).subscribe((logs: any) => {
       console.log(logs);
     });
+  }
+
+  openPodDetailes(index: number) {
+    this.activeRowNumber = this.activeRowNumber === index ? null : index;
   }
 
   convertAge(podsInfo: any[]): any[] {
@@ -75,10 +86,6 @@ export class AppComponent implements OnInit {
         age: age
       };
     });
-  }
-
-  openPodDetailes(index: number) {
-    this.activeRowNumber = this.activeRowNumber === index ? null : index;
   }
 
 }

@@ -23,7 +23,7 @@
         </div>
 
         <ng-container *ngFor="let pod of podsInfo; index as i">
-            <div class="pod pod-row" (click)="openPodDetailes(i)" [ngClass]="{'active': i === activeRowNumber}">
+            <div mat-menu-trigger [matMenuTriggerFor]="menu" class="pod pod-row" [ngClass]="{'active': i === activeRowNumber}" (click)="activeRowNumber = i">
 
                 <div class="pod-name">
                     {{pod.name}}
@@ -39,10 +39,22 @@
                 </div>
 
             </div>
-            <div *ngIf="i === activeRowNumber" class="pod active">
+
+            <mat-menu #menu="matMenu">
+                <div mat-menu-item (click)="getPodLog(pod.name)">
+                    <mat-icon>description</mat-icon>
+                    <span>describe</span>
+                </div>
+                <div mat-menu-item (click)="getPodLog(pod.name)">
+                    <mat-icon>assignment</mat-icon>
+                    <span>logs</span>
+                </div>
+            </mat-menu>
+
+            <!-- <div *ngIf="i === activeRowNumber" class="pod active">
                 <button class="button">describe</button>
                 <button class="button" (click)="getPodLog(pod.name)">logs</button>
-            </div>
+            </div> -->
         </ng-container>
     </div>
 
