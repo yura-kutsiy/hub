@@ -65,7 +65,7 @@ namespace Pods
             var client = new Kubernetes(config);
 
             var response = await client.CoreV1.ReadNamespacedPodLogWithHttpMessagesAsync(
-                podName, @namespace, container: containerName, follow: false).ConfigureAwait(false);
+                podName, @namespace, container: containerName, tailLines: 1000, follow: false).ConfigureAwait(false);
 
             using (var streamReader = new StreamReader(response.Body))
             {

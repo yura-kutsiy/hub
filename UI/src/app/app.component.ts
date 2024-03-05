@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as sharedConfig from '../assets/namespaces.json';
+
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,8 @@ import * as sharedConfig from '../assets/namespaces.json';
   styleUrls: ['./app.component.scss']
 })
 
+
 export class AppComponent implements OnInit {
-  sharedConfig = sharedConfig;
 
   podsInfo: {
     ageInSeconds: number;
@@ -18,10 +19,12 @@ export class AppComponent implements OnInit {
     restarts: number;
     status: string;
   }[] = [];
-
+  
+  sharedConfig = sharedConfig;
   activeRowNumber: number | null = null;
   namespace?: string;
   activeNamespace: string | null = null;
+  url: string | null = isDevMode() ? 'http://localhost:8000' : '';
 
   constructor(public httpClient: HttpClient) { }
 
@@ -31,21 +34,17 @@ export class AppComponent implements OnInit {
   }
 
   getPodsInfo(namespace: string) {
-    console.log(namespace);
     this.activeNamespace = namespace;
     this.namespace = namespace;
     this.activeRowNumber = null;
-    this.httpClient.get('http://192.168.0.28:31135/kuber/' + namespace + '/pods').subscribe((podsInfo: any) => {
+    this.httpClient.get(this.url + '/kuber/' + namespace + '/pods').subscribe((podsInfo: any) => {
       this.podsInfo = this.convertAge(podsInfo);
       console.log(podsInfo);
     });
   }
 
-  //////////
-  //////// implement in API tailLines: 1000
-  //////////
   getPodLog(podName: string) {
-    this.httpClient.get('http://192.168.0.28:31135/kuber/' + this.namespace + '/pods/' + podName + '/logs', { responseType: 'text' }).subscribe((logs: any) => {
+    this.httpClient.get(this.url + '/kuber/' + this.namespace + '/pods/' + podName + '/logs', { responseType: 'text' }).subscribe((logs: any) => {
       console.log(logs);
     });
   }
