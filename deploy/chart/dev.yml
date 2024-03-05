@@ -3,7 +3,7 @@ service:
   type: NodePort
 api:
   image:
-    tag: 0.4.2-API-log
+    tag: 0.4.3
 ui:
   image:
     tag: 0.4.2-testUI
