@@ -22,28 +22,30 @@
             </div>
         </div>
 
-        <ng-container *ngFor="let pod of podsInfo; index as i">
-            <div class="pod pod-row" (click)="openPodDetailes(i)" [ngClass]="{'active': i === activeRowNumber}">
+        <div class="podlist-background">
+            <ng-container *ngFor="let pod of podsInfo; index as i">
+                <div class="pod pod-row" (click)="openPodDetailes(i)" [ngClass]="{'active': i === activeRowNumber}">
 
-                <div class="pod-name">
-                    {{pod.name}}
-                </div>
-                <div class="pod-status">
-                    {{pod.status}}
-                </div>
-                <div class="pod-restarts">
-                    {{pod.restarts}}
-                </div>
-                <div class="pod-age">
-                    {{pod.age}}
-                </div>
+                    <div class="pod-name">
+                        {{pod.name}}
+                    </div>
+                    <div class="pod-status">
+                        {{pod.status}}
+                    </div>
+                    <div class="pod-restarts">
+                        {{pod.restarts}}
+                    </div>
+                    <div class="pod-age">
+                        {{pod.age}}
+                    </div>
 
-            </div>
-            <div *ngIf="i === activeRowNumber" class="pod active">
-                <button class="button">describe</button>
-                <button class="button" (click)="getPodLog(pod.name)">logs</button>
-            </div>
-        </ng-container>
+                </div>
+                <div *ngIf="i === activeRowNumber" class="pod active">
+                    <button class="button">describe</button>
+                    <button class="button" (click)="getPodLog(pod.name)">logs</button>
+                </div>
+            </ng-container>
+        </div>
     </div>
 
 </div>

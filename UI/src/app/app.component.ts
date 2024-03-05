@@ -27,24 +27,31 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(sharedConfig);
-    this.getPodsInfo('default');
-    // this.getPodsInfo(sharedConfig.namespaces[0]); parse to object
+    this.getPodsInfo(this.sharedConfig.namespaces[3]);
   }
 
   getPodsInfo(namespace: string) {
     console.log(namespace);
+    this.activeNamespace = namespace;
+    this.namespace = namespace;
+    this.activeRowNumber = null;
     this.httpClient.get('http://192.168.0.28:31135/kuber/' + namespace + '/pods').subscribe((podsInfo: any) => {
-      console.log(podsInfo);
       this.podsInfo = this.convertAge(podsInfo);
-      this.activeNamespace = namespace;
-      this.activeRowNumber = null;
+      console.log(podsInfo);
     });
   }
 
+  //////////
+  //////// implement in API tailLines: 1000
+  //////////
   getPodLog(podName: string) {
     this.httpClient.get('http://192.168.0.28:31135/kuber/' + this.namespace + '/pods/' + podName + '/logs', { responseType: 'text' }).subscribe((logs: any) => {
       console.log(logs);
     });
+  }
+
+  openPodDetailes(index: number) {
+    this.activeRowNumber = this.activeRowNumber === index ? null : index;
   }
 
   convertAge(podsInfo: any[]): any[] {
@@ -75,10 +82,6 @@ export class AppComponent implements OnInit {
         age: age
       };
     });
-  }
-
-  openPodDetailes(index: number) {
-    this.activeRowNumber = this.activeRowNumber === index ? null : index;
   }
 
 }
