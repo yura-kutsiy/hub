@@ -7,6 +7,7 @@ namespace Pods
     {
         public string? Name { get; set; }
         public string? Status { get; set; }
+        public string? Containers { get; set; } // Change type to string
         public int Restarts { get; set; }
         public int AgeInSeconds { get; set; }
     }
@@ -34,10 +35,14 @@ namespace Pods
                     var ageTimeSpan = currentTimeUtc - creationTimestampUtc.GetValueOrDefault();
                     var ageInSeconds = (int)ageTimeSpan.TotalSeconds;
 
+                    // Concatenate container names into a single string
+                    string containerNames = string.Join(", ", pod.Spec.Containers.Select(container => container.Name));
+
                     var podInfo = new PodInfo
                     {
                         Name = pod.Metadata.Name,
                         Status = pod.Status.Phase,
+                        Containers = containerNames,
                         Restarts = pod.Status.ContainerStatuses.Sum(container => container.RestartCount),
                         AgeInSeconds = ageInSeconds
                     };
@@ -50,14 +55,17 @@ namespace Pods
         }
 
         public static async Task<string> GetPodLogs(string @namespace, string podName)
-        // public static async Task<string> GetPodLogs(string @namespace, string podName, string containerName)
+        {
+            return await GetPodLogs(@namespace, podName, null);
+        }
+
+        public static async Task<string> GetPodLogs(string @namespace, string podName, string? containerName)
         {
             KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
             var client = new Kubernetes(config);
 
             var response = await client.CoreV1.ReadNamespacedPodLogWithHttpMessagesAsync(
-                podName, @namespace, follow: false).ConfigureAwait(false);
-                // podName, @namespace, container: containerName, follow: false).ConfigureAwait(false);
+                podName, @namespace, container: containerName, follow: false).ConfigureAwait(false);
 
             using (var streamReader = new StreamReader(response.Body))
             {
