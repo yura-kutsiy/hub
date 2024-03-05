@@ -6,7 +6,7 @@ api:
     tag: 0.4.3
 ui:
   image:
-    tag: 0.4.2-testUI
+    tag: 0.4.3
 optional_name: local-DEV-cluster
 list_namespace:
   - app
