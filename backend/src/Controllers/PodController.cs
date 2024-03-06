@@ -50,7 +50,6 @@ namespace kuberApi.PodControllers
             }
             catch (Exception ex)
             {
-                // Handle exceptions appropriately and return a meaningful error response
                 _logger.LogError("Error retrieving logs for {podName} in namespace {namespace}", @podName, @namespace);
                 return StatusCode(500, $"Error retrieving logs: {ex.Message}");
             }
@@ -67,9 +66,24 @@ namespace kuberApi.PodControllers
             }
             catch (Exception ex)
             {
-                // Handle exceptions appropriately and return a meaningful error response
                 _logger.LogError("Error retrieving logs for {containerName} from {podName} in namespace {namespace}", @containerName, @podName, @namespace);
                 return StatusCode(500, $"Error retrieving logs: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{namespace}/pods/{podName}/events")]
+        public async Task<ActionResult<IEnumerable<PodEventInfo>>> GetPodEvents(string @namespace, string podName)
+        {
+            try
+            {
+                var events = await KubernetesPods.GetPodEvents(@namespace, podName);
+                _logger.LogInformation("Pod {podName} events retrieved successfully", podName);
+                return Ok(events);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error retrieving events for {podName} in namespace {namespace}", podName, @namespace);
+                return StatusCode(500, $"Error retrieving events: {ex.Message}");
             }
         }
     }

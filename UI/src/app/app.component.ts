@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     restarts: number;
     status: string;
   }[] = [];
-  
+
   sharedConfig = sharedConfig;
   activeRowNumber: number | null = null;
   namespace?: string;
@@ -51,6 +51,12 @@ export class AppComponent implements OnInit {
 
   openPodDetailes(index: number) {
     this.activeRowNumber = this.activeRowNumber === index ? null : index;
+  }
+
+  getPodEvents(podName: string) {
+    this.httpClient.get(this.url + '/kuber/' + this.namespace + '/pods/' + podName + '/events').subscribe((events: any) => {
+      console.log(events);
+    });
   }
 
   convertAge(podsInfo: any[]): any[] {

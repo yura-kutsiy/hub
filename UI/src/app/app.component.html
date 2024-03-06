@@ -50,6 +50,7 @@
                 <div *ngIf="i === activeRowNumber" class="pod active">
                     <button class="button">describe</button>
                     <button class="button" (click)="getPodLog(pod.name)">logs</button>
+                    <button class="button" (click)="getPodEvents(pod.name)">events</button>
                 </div>
             </ng-container>
         </div>

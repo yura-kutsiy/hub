@@ -7,9 +7,16 @@ namespace Pods
     {
         public string? Name { get; set; }
         public string? Status { get; set; }
-        public string? Containers { get; set; } // Change type to string
+        public string? Containers { get; set; }
         public int Restarts { get; set; }
         public int AgeInSeconds { get; set; }
+    }
+
+    public class PodEventInfo
+    {
+        public string? Type { get; set; }
+        public string? Reason { get; set; }
+        public string? Message { get; set; }
     }
 
     public static class KubernetesPods
@@ -72,5 +79,34 @@ namespace Pods
                 return await streamReader.ReadToEndAsync();
             }
         }
+
+        public static async Task<IEnumerable<PodEventInfo>> GetPodEvents(string @namespace, string podName)
+        {
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
+
+            var events = await CoreV1OperationsExtensions.ListNamespacedEventAsync(
+                client,
+                @namespace,
+                fieldSelector: $"involvedObject.name={podName}"
+            );
+
+            var podEventInfos = new List<PodEventInfo>();
+
+            foreach (var podEvent in events.Items)
+            {
+                var podEventInfo = new PodEventInfo
+                {
+                    Type = podEvent.Type,
+                    Reason = podEvent.Reason,
+                    Message = podEvent.Message
+                };
+
+                podEventInfos.Add(podEventInfo);
+            }
+
+            return podEventInfos;
+        }
+
     }
 }
