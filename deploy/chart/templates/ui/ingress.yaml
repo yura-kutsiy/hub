@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "release.shortName" . }}-ui-ingress
+  namespace: {{ .Values.namespace | quote }}
+  annotations:
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: dashboard.domain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "release.shortName" . }}-ui
+                port:
+                  number: 8080
