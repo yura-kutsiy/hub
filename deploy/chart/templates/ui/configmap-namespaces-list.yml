@@ -11,5 +11,5 @@ data:
         {{- range .Values.list_namespace }}
         "{{ . }}",
         {{- end }}
-       ]
+      ]
     }
