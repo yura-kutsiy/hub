@@ -7,5 +7,5 @@ RUN npm install -g @angular/cli@17.0.0
 RUN ng build  --configuration=production 
 
 
-FROM caddy:2.8
-COPY --from=build /usr/local/app/dist/ui/ /usr/share/caddy
+FROM nginx:1.25.3
+COPY --from=build /usr/local/app/dist/ui/ /usr/share/nginx/html
