@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: kuberui
-          image: yurasdockers/kuberui:{{ .Values.ui.image.tag }}
+          image: yurasdockers/kuberui:{{ .Values.image.tag }}
           imagePullPolicy: Always
           resources:
             requests:
