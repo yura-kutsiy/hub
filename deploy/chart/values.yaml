@@ -1,0 +1,10 @@
+service:
+  type: NodePort
+image:
+  tag: "0.4.3.1"
+optional_name: local-DEV-cluster
+list_namespace:
+  - app
+  - argocd
+  - app
+  - default
