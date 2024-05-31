@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "release.shortName" . }}-api
-  namespace: {{ .Values.namespace | quote }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app: kuberapi
 spec:
@@ -19,7 +19,7 @@ spec:
       serviceAccountName: {{ include "release.shortName" . }}-sa
       containers:
         - name: kuberapi
-          image: yurasdockers/kuberapi:{{ .Values.api.image.tag }}
+          image: yurasdockers/kuberapi:{{ .Values.image.tag }}
           imagePullPolicy: Always
           resources:
             requests:
