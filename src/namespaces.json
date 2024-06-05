@@ -1,9 +1,0 @@
-{
-    "optional_name": "local-develop-cluster",
-    "namespaces": [
-      "app",
-      "jenkins",
-      "argocd",
-      "metallb-system"
-    ]
-  }

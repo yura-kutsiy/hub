@@ -1,0 +1,119 @@
+.options {
+    background-color: #1B1A55;
+    display: flex;
+    border-radius: 8px;
+    padding-left: 8px;
+}
+
+.title {
+    color: cyan;
+    padding: 5px;
+    margin: 7px;
+    border-radius: 5px;
+    background-color: #126399;
+}
+
+.container {
+    background-color: #1B1A55;
+    height: 92vh;
+    display: flex;
+    border-radius: 8px;
+    margin-top: 10px;
+
+    .namespace-list {
+        width: 25%;
+        // height: 100%;
+        // padding: 10px;
+        margin: 15px;
+        overflow-y: auto;
+        color: whitesmoke;
+
+        .namespace {
+            padding: 5px;
+            margin-bottom: 5px;
+            // background-color: #34495e;
+            background-color: #535C91;
+            border-radius: 3px;
+
+            &:hover {
+                background-color: #2980b9;
+                transition: all 250ms;
+                cursor: pointer;
+                color: white;
+            }
+
+            &.active {
+                background-color: #2073aa;
+                color: black;
+            }
+        }
+    }
+
+    .podlist-background {
+        background-color: #535C91;
+    }
+
+    .pod-list {
+        position: relative;
+        width: 75%;
+        margin: 15px;
+        border-radius: 3px;
+        overflow-y: auto;
+        color: whitesmoke;
+
+        .pod {
+            padding: 5px;
+            // background-color: #33485e;
+            background-color: #535C91;
+            display: flex;
+            gap: 10px;
+
+            .pod-name {
+                width: calc(100% - 330px);
+                flex: 1;
+            }
+
+            .pod-status,
+            .pod-restarts,
+            .pod-age {
+                width: 100px;
+            }
+
+            &.pod.active {
+                background-color: #126399;
+                color: black;
+            }
+
+            &.table-header {
+                background-color: #434b7b;
+                box-shadow: 1px 1px 8px #5a6297;
+                position: sticky;
+                top: 0;
+            }
+
+            &.pod-row {
+
+                &:hover {
+                    background-color: #2980b9;
+                    transition: all 250ms;
+                    color: white;
+                    border-radius: 3px;
+                    cursor: context-menu;
+                }
+            }
+        }
+    }
+}
+
+.button {
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    padding: 3px;
+    margin: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}

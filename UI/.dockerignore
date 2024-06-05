@@ -1,0 +1,15 @@
+.dockerignore
+Dockerfile
+.env
+.git
+.gitignore
+.vs
+.vscode
+docker-compose.yml
+docker-compose.*.yml
+namespaces.json
+yml
+node_modules
+.angular
+README.md
+old
