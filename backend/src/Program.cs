@@ -1,7 +1,12 @@
 using Services;
 using Nodes;
+using Config;
+using kuberApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure settings
+builder.Services.Configure<AppSettings>(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddLogging(loggingBuilder =>
@@ -11,13 +16,14 @@ builder.Services.AddLogging(loggingBuilder =>
     loggingBuilder.AddDebug(); // Add debug logger
 });
 
-// Add services to the container.
+// Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins",
+    var corsSettings = builder.Configuration.GetSection("Cors").Get<CorsSettings>();
+    options.AddPolicy("AllowConfiguredOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin()
+            builder.WithOrigins(corsSettings.AllowedOrigins)
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -27,17 +33,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register services
 builder.Services.AddSingleton<KubernetesServices>();
 builder.Services.AddSingleton<KubernetesNodes>();
+builder.Services.AddSingleton<KubernetesPods>();
+
+// Configure Kestrel
 builder.WebHost.UseUrls("http://0.0.0.0:8000");
 
 var app = builder.Build();
 
-// Enable CORS middleware
-app.UseCors("AllowAllOrigins");
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.UseSwagger();
-app.UseSwaggerUI();
+// Use global exception handler
+app.UseMiddleware<GlobalExceptionHandler>();
+
+// Enable CORS middleware
+app.UseCors("AllowConfiguredOrigins");
 
 app.UseAuthorization();
 

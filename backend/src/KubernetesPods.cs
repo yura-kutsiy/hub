@@ -1,5 +1,6 @@
 using k8s;
 using Config;
+using Newtonsoft.Json;
 
 namespace Pods
 {
@@ -108,5 +109,14 @@ namespace Pods
             return podEventInfos;
         }
 
+        public static async Task<string> GetPodDescription(string @namespace, string podName)
+        {
+            KubernetesClientConfiguration config = KubernetesConfig.GetConfiguration();
+            var client = new Kubernetes(config);
+
+            var pod = await client.ReadNamespacedPodAsync(podName, @namespace);
+
+            return JsonConvert.SerializeObject(pod);
+        }
     }
 }
