@@ -25,7 +25,7 @@ namespace kuberApi.PodControllers
         {
             try
             {
-                var pods = await KubernetesPods.GetPods(@namespace);
+                var pods = await KubernetesPods.GetKubernetesPods(@namespace);
                 _logger.LogInformation("Retrieved {count} pods from namespace {namespace}", pods.Count(), @namespace);
                 return Ok(pods);
             }
@@ -40,7 +40,7 @@ namespace kuberApi.PodControllers
         [HttpGet("{namespace}/pods/{podName}/logs")]
         public async Task<ActionResult<string>> GetPodLogs(string @namespace, string podName)
         {
-            if (!_settings.FeatureFlags.EnablePodLogs)
+            if (_settings?.FeatureFlags?.EnablePodLogs != true)
             {
                 _logger.LogWarning("Pod logs feature is disabled");
                 return StatusCode(403, "Pod logs feature is disabled");
@@ -63,7 +63,7 @@ namespace kuberApi.PodControllers
         [HttpGet("{namespace}/pods/{podName}/logs/{containerName}")]
         public async Task<ActionResult<string>> GetPodLogs(string @namespace, string podName, string containerName)
         {
-            if (!_settings.FeatureFlags.EnablePodLogs)
+            if (_settings?.FeatureFlags?.EnablePodLogs != true)
             {
                 _logger.LogWarning("Pod logs feature is disabled");
                 return StatusCode(403, "Pod logs feature is disabled");
@@ -86,7 +86,7 @@ namespace kuberApi.PodControllers
         [HttpGet("{namespace}/pods/{podName}/events")]
         public async Task<ActionResult<IEnumerable<PodEventInfo>>> GetPodEvents(string @namespace, string podName)
         {
-            if (!_settings.FeatureFlags.EnablePodEvents)
+            if (_settings?.FeatureFlags?.EnablePodEvents != true)
             {
                 _logger.LogWarning("Pod events feature is disabled");
                 return StatusCode(403, "Pod events feature is disabled");
@@ -109,7 +109,7 @@ namespace kuberApi.PodControllers
         [HttpGet("{namespace}/pods/{podName}/description")]
         public async Task<ActionResult<string>> GetPodDescription(string @namespace, string podName)
         {
-            if (!_settings.FeatureFlags.EnablePodDescription)
+            if (_settings?.FeatureFlags?.EnablePodDescription != true)
             {
                 _logger.LogWarning("Pod description feature is disabled");
                 return StatusCode(403, "Pod description feature is disabled");

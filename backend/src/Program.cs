@@ -1,6 +1,7 @@
 using Services;
 using Nodes;
 using Config;
+using Pods;
 using kuberApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowConfiguredOrigins",
         builder =>
         {
-            builder.WithOrigins(corsSettings.AllowedOrigins)
+            builder.WithOrigins(corsSettings?.AllowedOrigins ?? Array.Empty<string>())
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
@@ -36,7 +37,6 @@ builder.Services.AddSwaggerGen();
 // Register services
 builder.Services.AddSingleton<KubernetesServices>();
 builder.Services.AddSingleton<KubernetesNodes>();
-builder.Services.AddSingleton<KubernetesPods>();
 
 // Configure Kestrel
 builder.WebHost.UseUrls("http://0.0.0.0:8000");

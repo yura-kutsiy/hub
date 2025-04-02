@@ -2,20 +2,20 @@ namespace Config
 {
     public class AppSettings
     {
-        public CorsSettings Cors { get; set; }
-        public KubernetesSettings Kubernetes { get; set; }
-        public FeatureFlags FeatureFlags { get; set; }
+        public CorsSettings? Cors { get; set; }
+        public KubernetesSettings? Kubernetes { get; set; }
+        public FeatureFlags? FeatureFlags { get; set; }
     }
 
     public class CorsSettings
     {
-        public string[] AllowedOrigins { get; set; }
+        public string[]? AllowedOrigins { get; set; }
     }
 
     public class KubernetesSettings
     {
-        public string ConfigPath { get; set; }
-        public string DefaultNamespace { get; set; }
+        public string? ConfigPath { get; set; }
+        public string? DefaultNamespace { get; set; }
     }
 
     public class FeatureFlags
