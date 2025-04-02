@@ -6,7 +6,7 @@
 }
 
 .title {
-    color: cyan;
+    color: white;
     padding: 5px;
     margin: 7px;
     border-radius: 5px;
@@ -44,7 +44,7 @@
 
             &.active {
                 background-color: #2073aa;
-                color: black;
+                color: rgb(212, 212, 212);
             }
         }
     }
@@ -81,7 +81,7 @@
 
             &.pod.active {
                 background-color: #126399;
-                color: black;
+                color: rgb(212, 212, 212);
             }
 
             &.table-header {

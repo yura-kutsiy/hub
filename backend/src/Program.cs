@@ -1,14 +1,23 @@
 using Services;
 using Nodes;
+using Middleware;
+using Microsoft.Extensions.Logging.Console;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddLogging(loggingBuilder =>
+// Configure structured logging
+builder.Logging.ClearProviders();
+builder.Services.Configure<ConsoleFormatterOptions>(options =>
 {
-    loggingBuilder.ClearProviders(); // Clear the default logging providers
-    loggingBuilder.AddConsole(); // Add console logger
-    loggingBuilder.AddDebug(); // Add debug logger
+    options.IncludeScopes = true;
+    options.TimestampFormat = "[HH:mm:ss] ";
+});
+
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.AddJsonConsole(options =>
+{
+    options.IncludeScopes = true;
 });
 
 // Add services to the container.
@@ -35,6 +44,9 @@ var app = builder.Build();
 
 // Enable CORS middleware
 app.UseCors("AllowAllOrigins");
+
+// Add global exception handler
+app.UseMiddleware<GlobalExceptionHandler>();
 
 app.UseSwagger();
 app.UseSwaggerUI();
